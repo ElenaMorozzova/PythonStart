@@ -91,17 +91,57 @@ print(rating_list)
 
 # Задание 6
 
-goods = int(input("Сколько товаров хотите записать:\n"))
-goods_dict = []
+goods_dict = {
+    'Название товара': ('Название товара', str),
+    'Цена товара': ('Цена товара', int),
+    'Кол-во': ('Кол-во товара', int),
+    'Единицы': ('Единицы измерения товара', str),
+}
+next_input = True
 goods_list = []
-goods_matrix = {}
 n = 1
-while n <= goods:
-    goods_dict = dict({'название': input("Название товара:\n"), 'цена': input("Цена товара:\n"),
-                    'количество': input("Кол-во товара:\n"), 'eд': input("Ед. измерения:\n")})
-    goods_list.append((n, goods_dict))
+while next_input:
+    goods = {}
+    for key, val in goods_dict.items():
+        while True:
+            user_value = input(f'{val[0]}\n')
+            try:
+                user_value = val[1](user_value)
+            except ValueError as e:
+                print(f'{e}\nНеверный формат данных')
+                continue
+            goods[key] = user_value
+            break
+    goods_list.append((n, goods))
     n += 1
-    goods_matrix = dict({'название': goods_dict.get('название'), 'цена': goods_dict.get('цена'),
-    'количество': goods_dict.get('количество'), 'ед': goods_dict.get('eд')})
+    while True:
+        add_new = input('Добавить еще товар? Да/Нет\n')
+        if add_new.lower() in ('да', 'нет'):
+            next_input = add_new.lower() == 'да'
+            break
+        else:
+            print('Неверный ввод')
 print('Лист товаров:', goods_list)
-print('Характеристики товаров не получились:', goods_matrix)
+
+goods_matrix = {}
+for key in goods_dict:
+    result = []
+    for itm in goods_list:
+        result.append(itm[1][key])
+    goods_matrix[key] = result
+print('Аналитика:', goods_matrix)
+
+
+
+
+#     goods_dict = dict({'название': input("Название товара:\n"), 'цена': input("Цена товара:\n"),
+#                     'количество': input("Кол-во товара:\n"), 'eд': input("Ед. измерения:\n")})
+#     goods_list.append((n, goods_dict))
+#     n += 1
+#     goods_matrix = dict({'название': goods_dict.get('название'), 'цена': goods_dict.get('цена'),
+#     'количество': goods_dict.get('количество'), 'ед': goods_dict.get('eд')})
+# print('Лист товаров:', goods_list)
+# #
+# user_words = input()
+# for idx, word in enumerate(user_words.split(' ')):
+#     print(f'{idx}:{word[:10]}')
