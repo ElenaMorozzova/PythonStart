@@ -150,12 +150,16 @@ class Cell:
     def __repr__(self):
         return 'Количество ячеек в новой клетке: %s' % self.q_num
 
-    def make_order(self, n):
-        row = ""
-        for i in range(self.q_num // n):
-            row += f'{"*" * n} \\n'
-        row += f'{"*" * (self.q_num % n)}'
-        return row
+    # def make_order(self, n):
+    #     row = ""
+    #     for i in range(self.q_num // n):
+    #         row += f'{"*" * n} \\n'
+    #     row += f'{"*" * (self.q_num % n)}'
+    #     return row
+
+    def make_order(self, lines: int):
+        temp = self.n // lines
+        result = '\n'.join(['*' for _ in range(temp)])
 
 
 print(Cell(1) + Cell(2))
